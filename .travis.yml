@@ -1,0 +1,34 @@
+language: python
+sudo: false
+python:
+    - "2.7"
+cache:
+    directories:
+        - $HOME/.cache/pip
+addons:
+    apt:
+        packages:
+            - liblapack3gf
+            - gfortran
+            - libatlas-dev
+            - libatlas-base-dev
+            - liblapack-dev
+            - libgmp-dev
+            - libmpfr-dev
+            - coinor-libosi-dev
+            - coinor-libcbc-dev
+            - coinor-libcbc-doc
+            - coinor-libcgl-dev
+            - coinor-libcgl-doc
+            - coinor-libclp-dev
+            - coinor-libclp-doc
+before_install:
+    - export CYLP_USE_CYTHON=
+    - export PIP_CACHE_DIR=$HOME/.cache/pip
+    - export C_INCLUDE_PATH=/usr/include/coin
+    - export CPP_INCLUDE_PATH=/usr/include/coin
+    - pip install pip --upgrade
+    - pip install numpy scipy cython -v
+install:
+    - python setup.py install
+script: python -m unittest discover

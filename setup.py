@@ -53,15 +53,19 @@ def get_libs():
     '''
     Return a list of distinct library names used by ``dependencies``.
     '''
-    with open(join(CoinDir, 'share', 'coin',
-                   'doc', 'Cbc', 'cbc_addlibs.txt')) as f:
-        link_line = f.read()
-        if operatingSystem == 'windows':
-            libs = [flag[:-4] for flag in link_line.split() if
-                    flag.endswith('.lib')]
-        else:
-            libs = [flag[2:] for flag in link_line.split() if
-                    flag.startswith('-l')]
+    try:
+        with open(join(CoinDir, 'share', 'coin',
+                       'doc', 'Cbc', 'cbc_addlibs.txt')) as f:
+            link_line = f.read()
+            if operatingSystem == 'windows':
+                libs = [flag[:-4] for flag in link_line.split() if
+                        flag.endswith('.lib')]
+            else:
+                libs = [flag[2:] for flag in link_line.split() if
+                        flag.startswith('-l')]
+    except IOError:
+        libs = ["CbcSolver", "Cbc", "Cgl", "OsiClp", "ClpSolver", "Clp",
+                "Osi", "CoinUtils", "bz2", "z", "lapack", "blas", "m "]
     return libs
 
 def getBdistFriendlyString(s):
